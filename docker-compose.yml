@@ -3,13 +3,13 @@ version: '3.8'
 services:
   database:
     image: postgres:latest
-    container_name: nestjs-bp-postgres
+    container_name: task-management-postgred
     restart: always
     env_file:
       - .env
     volumes:
       - database:/data/postgres
     ports:
-      - '5432:5432'
+      - '5433:5432'
 volumes:
   database:
