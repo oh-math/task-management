@@ -8,7 +8,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
     await this.addConstraint();
   }
   async addConstraint() {
-    const result: Array<[]> = await this.$queryRaw`
+    const result: Array<{}> = await this.$queryRaw`
       SELECT 1
       FROM pg_constraint
       WHERE conname = 'task_project_id_user_id_check'
