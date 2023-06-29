@@ -1,4 +1,5 @@
-import { Exclude, Expose } from 'class-transformer';
+import { Exclude, Expose, Transform, Type } from 'class-transformer';
+import { formatDate } from 'src/common/utils/format-date';
 
 export class UserResponse {
   @Expose()
@@ -9,8 +10,12 @@ export class UserResponse {
   password: string;
   @Expose()
   name: string;
+
+  @Type(() => Date)
   @Expose()
-  createdAt: Date;
+  @Transform(({ value }) => formatDate(value), { toClassOnly: true })
+  createdAt: string;
   @Expose()
-  updatedAt: Date;
+  @Transform(({ value }) => formatDate(value), { toClassOnly: true })
+  updatedAt: string;
 }
