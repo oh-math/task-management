@@ -4,7 +4,7 @@ import { IUser } from './interfaces/user.interface';
 import { Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { CreateUserDto, UpdateUserDto } from './dtos';
-import { UserModel } from 'src/common/models/user.model';
+import { UserModel } from 'src/models/user.model';
 
 @Injectable()
 export class UserRepository implements IUser {
@@ -16,7 +16,7 @@ export class UserRepository implements IUser {
     });
   }
 
-  public async findAll(): Promise<User[]> {
+  public async findMany(): Promise<User[]> {
     return await this.prisma.user.findMany();
   }
 
