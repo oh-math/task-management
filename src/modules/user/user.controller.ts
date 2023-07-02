@@ -20,22 +20,23 @@ export class UserController {
 
   @Post()
   public async create(@Body() input: CreateUserDto): Promise<UserResponse> {
-    return await this.userService.create(input);
+    return this.userService.create(input);
   }
 
   @Get()
   public async findAll(): Promise<UserResponse[]> {
-    return await this.userService.findAll();
+    return this.userService.findAll();
   }
 
   @Get('by-id-or-email/:id')
   public async findByIdOrEmail(@Param('id') id: string): Promise<UserResponse> {
-    return await this.userService.findByIdOrEmail(id);
+    return this.userService.findByIdOrEmail(id);
   }
 
+  @UsePipes(UserPermissionPipe)
   @Delete(':id')
   public async delete(@Param('id') id: string): Promise<void> {
-    await this.userService.delete(id);
+   this.userService.delete(id);
   }
 
   @Patch(':id')
@@ -44,6 +45,6 @@ export class UserController {
     @Body() input: UpdateUserDto,
     @Param('id') id: string,
   ): Promise<UserResponse> {
-    return await this.userService.update(id, input);
+    return this.userService.update(id, input);
   }
 }

@@ -41,6 +41,7 @@ export class UserService {
 
   async hashPassword(password: string): Promise<String> {
     const saltRounds = 10;
-    return await hash(password, saltRounds);
+    return hash(password, saltRounds);
   }
+
 }
