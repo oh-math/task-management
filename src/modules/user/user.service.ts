@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { hash, hashSync } from 'bcrypt';
+import { hash } from 'bcrypt';
 import { plainToInstance } from 'class-transformer';
 import { CreateUserDto, UpdateUserDto, UserResponse } from './dtos';
 import { UserRepository } from './user.repository';
@@ -43,5 +43,4 @@ export class UserService {
     const saltRounds = 10;
     return hash(password, saltRounds);
   }
-
 }

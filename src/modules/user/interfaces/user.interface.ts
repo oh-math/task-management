@@ -1,11 +1,10 @@
-import { User } from '@prisma/client';
-import { CreateUserDto, UpdateUserDto, UserResponse } from '../dtos';
 import { UserModel } from 'src/models/user.model';
+import { CreateUserDto, UpdateUserDto } from '../dtos';
 
 export interface IUser {
   create(input: CreateUserDto): Promise<UserModel>;
 
-  findMany(): Promise<User[]>;
+  findMany(): Promise<UserModel[]>;
 
   findByIdOrEmail(input: string): Promise<UserModel>;
 
