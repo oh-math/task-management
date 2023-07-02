@@ -35,12 +35,12 @@ export class UserController {
 
   @UsePipes(UserPermissionPipe)
   @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
   public async delete(@Param('id') id: string): Promise<void> {
    this.userService.delete(id);
   }
 
   @Patch(':id')
-  @HttpCode(HttpStatus.NO_CONTENT)
   public async update(
     @Body() input: UpdateUserDto,
     @Param('id') id: string,
