@@ -7,12 +7,10 @@ import {
   HttpStatus,
   Param,
   Patch,
-  Post,
-  UsePipes,
+  Post
 } from '@nestjs/common';
-import { UserService } from './user.service';
 import { CreateUserDto, UpdateUserDto, UserResponse } from './dtos';
-import { UserPermissionPipe } from 'src/common/pipes';
+import { UserService } from './user.service';
 
 @Controller('api/user')
 export class UserController {
@@ -33,7 +31,6 @@ export class UserController {
     return this.userService.findByIdOrEmail(id);
   }
 
-  @UsePipes(UserPermissionPipe)
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
   public async delete(@Param('id') id: string): Promise<void> {
