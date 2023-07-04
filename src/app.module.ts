@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { PrismaService } from './config/prisma/prisma.service';
 import { LoggerModule } from 'nestjs-pino';
 import { UserModule } from './modules/user/user.module';
+import { AuthenticationModule } from './authentication/authentication.module';
 
 @Module({
   imports: [
@@ -15,7 +16,8 @@ import { UserModule } from './modules/user/user.module';
         },
       },
     }),
-    UserModule
+    UserModule,
+    AuthenticationModule
   ],
   controllers: [],
   providers: [PrismaService],
