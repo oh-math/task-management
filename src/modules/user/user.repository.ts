@@ -4,6 +4,7 @@ import { IUser } from './interfaces/user.interface';
 import { Injectable } from '@nestjs/common';
 import { UserModel } from 'src/models/user.model';
 import { CreateUserDto, UpdateUserDto } from './dtos';
+import { Prisma, User } from '@prisma/client';
 
 @Injectable()
 export class UserRepository implements IUser {
@@ -18,6 +19,13 @@ export class UserRepository implements IUser {
   public async findMany(): Promise<UserModel[]> {
     return await this.prisma.user.findMany();
   }
+
+  public async findUnique(
+    options: Prisma.UserFindUniqueOrThrowArgs,
+  ): Promise<UserModel | null> {
+    return this.prisma.user.findUniqueOrThrow(options);
+  }
+
 
   public async findByIdOrEmail(input: string): Promise<UserModel> {
     return await this.prisma.user.findFirst({
