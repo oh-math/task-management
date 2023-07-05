@@ -1,6 +1,6 @@
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
-import { PayloadJWT } from 'src/authentication/interfaces/payload-jwt.interface';
+import { PayloadJWT } from 'src/common/interfaces/payload-jwt.interface';
 
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor() {

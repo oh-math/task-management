@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { compare } from 'bcrypt';
-import { PayloadJWT } from 'src/authentication/interfaces/payload-jwt.interface';
+import { PayloadJWT } from 'src/common/interfaces/payload-jwt.interface';
 import { UserModel } from 'src/models/user.model';
 import { UserRepository } from 'src/modules/user/user.repository';
 

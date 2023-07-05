@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { PrismaService } from './config/prisma/prisma.service';
 import { LoggerModule } from 'nestjs-pino';
-import { UserModule } from './modules/user/user.module';
 import { AuthenticationModule } from './authentication/authentication.module';
+import { PrismaService } from './config/prisma/prisma.service';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
@@ -17,7 +17,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
       },
     }),
     UserModule,
-    AuthenticationModule
+    AuthenticationModule,
   ],
   controllers: [],
   providers: [PrismaService],
