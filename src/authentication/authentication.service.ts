@@ -36,7 +36,7 @@ export class AuthenticationService {
     return null;
   }
 
-  public async findUser(email: string): Promise<UserModel | null> {
+  private async findUser(email: string): Promise<UserModel | null> {
     try {
       const user = await this.userRepository.findUnique({
         where: {
