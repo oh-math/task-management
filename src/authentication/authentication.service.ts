@@ -28,8 +28,10 @@ export class AuthenticationService {
     password: string,
   ): Promise<UserModel | null> {
     const result = await this.findUser(email);
+    const isPasswordValid =
+      result && (await compare(password, result?.password));
 
-    if (result && (await compare(password, result?.password))) {
+    if (result && isPasswordValid) {
       return result;
     }
 
