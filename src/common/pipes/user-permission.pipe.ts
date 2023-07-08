@@ -1,11 +1,11 @@
 import {
   ArgumentMetadata,
-  BadRequestException,
+  ForbiddenException,
   HttpStatus,
   Inject,
   Injectable,
   PipeTransform,
-  Scope,
+  Scope
 } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { PayloadJWTRequest } from '../interfaces';
@@ -19,8 +19,8 @@ export class UserPermissionPipe implements PipeTransform {
     const { sub: userId } = this.req.user;
 
     if (userId !== paramId) {
-      throw new BadRequestException({
-        status: HttpStatus.BAD_REQUEST,
+      throw new ForbiddenException({
+        status: HttpStatus.FORBIDDEN,
         message: `You don't have the permission to proceed`,
       });
     }
