@@ -14,7 +14,7 @@ export class AuthenticationService {
     private readonly userRepository: UserRepository,
   ) {}
 
-  public async login(user: UserModel) {
+  public generateToken(user: UserModel) {
     const { user_id: sub, email } = user;
     const payload: PayloadJWT = { sub, email };
 

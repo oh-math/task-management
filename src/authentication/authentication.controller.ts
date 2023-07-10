@@ -10,6 +10,6 @@ export class AuthenticationController {
   @UseGuards(LocalAuthGuard)
   @Post('login')
   public async login(@Req() req: UserModelRequest) {
-    return this.service.login(req.user);
+    return this.service.generateToken(req.user);
   }
 }
