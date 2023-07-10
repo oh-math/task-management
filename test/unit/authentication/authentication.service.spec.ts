@@ -7,8 +7,8 @@ import { hash } from 'bcrypt';
 import {
   email as fakerEmail,
   password as fakerPassword,
-  userRawFake,
-} from 'test/helper/user-raw.stub';
+  userRawFake
+} from 'test/helper';
 
 describe('AuthenticationService', () => {
   let authenticationService: AuthenticationService;
@@ -19,11 +19,16 @@ describe('AuthenticationService', () => {
     const moduleRef = await Test.createTestingModule({
       providers: [
         AuthenticationService,
-        JwtService,
         {
           provide: UserRepository,
           useValue: {
-            findUnique: jest.fn().mockResolvedValue({}),
+            findUnique: jest.fn().mockResolvedValue(undefined),
+          },
+        },
+        {
+          provide: JwtService,
+          useValue: {
+            sign: jest.fn().mockResolvedValue(null),
           },
         },
       ],
@@ -36,8 +41,34 @@ describe('AuthenticationService', () => {
     userRepository = moduleRef.get<UserRepository>(UserRepository);
   });
 
+  it('should be defined', () => {
+    expect(jwtService).toBeDefined();
+    expect(authenticationService).toBeDefined();
+    expect(userRepository).toBeDefined();
+  });
+
   afterEach(() => {
     jest.clearAllMocks();
+  });
+
+  describe('generateToken', () => {
+    let userFake: UserModel;
+    const fakeToken =
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
+
+    beforeAll(async () => {
+      userFake = userRawFake();
+    });
+
+    it('when a `UserModel` object is given, should return a token object', () => {
+      jest.spyOn(jwtService, 'sign').mockReturnValue(fakeToken);
+
+      const generatedToken = authenticationService.generateToken(userFake);
+
+      expect(generatedToken).toMatchObject({
+        token: expect.any(String),
+      });
+    });
   });
 
   describe('validateUserEmailAndPassword', () => {
@@ -49,6 +80,7 @@ describe('AuthenticationService', () => {
 
       userFake = userRawFake({ password: hashedPassword });
     });
+
     it('should return null when user does not exists', async () => {
       jest.spyOn(userRepository, 'findUnique').mockResolvedValue(null);
 
@@ -61,7 +93,7 @@ describe('AuthenticationService', () => {
       expect(validationResult).toBeNull();
     });
 
-    it('should return null when user does not exists', async () => {
+    it('should return null when password is wrong', async () => {
       const wrongPassword = '123';
       jest.spyOn(userRepository, 'findUnique').mockResolvedValue(userFake);
 
