@@ -10,7 +10,8 @@ export class UserService {
 
   public async create(input: CreateUserDto): Promise<UserResponse> {
     const hashedPassword = await this.hashPassword(input.password);
-    const user = { password: hashedPassword, ...input };
+
+    const user = { ...input, password: hashedPassword };
 
     const result = await this.userRepository.create(user);
 
@@ -39,7 +40,7 @@ export class UserService {
     return plainToInstance(UserResponse, result);
   }
 
-  async hashPassword(password: string): Promise<String> {
+  private async hashPassword(password: string): Promise<string> {
     const saltRounds = 10;
     return hash(password, saltRounds);
   }

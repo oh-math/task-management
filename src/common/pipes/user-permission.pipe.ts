@@ -1,41 +1,30 @@
 import {
   ArgumentMetadata,
-  BadRequestException,
+  ForbiddenException,
   HttpStatus,
   Inject,
   Injectable,
   PipeTransform,
-  Scope,
+  Scope
 } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
-import { Request } from 'express';
-import { ZodError, z } from 'zod';
+import { PayloadJWTRequest } from '../interfaces';
 
 @Injectable({ scope: Scope.REQUEST })
 export class UserPermissionPipe implements PipeTransform {
-  constructor(@Inject(REQUEST) private readonly req: Request) {}
+  constructor(@Inject(REQUEST) private readonly req: PayloadJWTRequest) {}
 
   async transform(metadata: ArgumentMetadata) {
-    const { id: paramId, email } = this.req.params;
-    const { user_id } = this.req.user;
+    const { id: paramId } = this.req.params;
+    const { sub: userId } = this.req.user;
 
-    try {
-      const schema = z.object({
-        user_id: z.string().refine((value) => {
-          value === paramId;
-        }),
+    if (userId !== paramId) {
+      throw new ForbiddenException({
+        status: HttpStatus.FORBIDDEN,
+        message: `You don't have the permission to proceed`,
       });
-
-      schema.parse({ user_id: user_id });
-
-      return metadata;
-    } catch (error) {
-      if (error instanceof ZodError) {
-        throw new BadRequestException({
-          error: HttpStatus.BAD_REQUEST,
-          message: `You don't have permission to continue`,
-        });
-      }
     }
+
+    return metadata;
   }
 }

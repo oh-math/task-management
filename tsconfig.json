@@ -16,6 +16,14 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
-    "noFallthroughCasesInSwitch": false
-  }
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@user/*": ["src/modules/user/*"],
+      "@models/*": ["src/models/*"],
+      "@authentication/*": ["src/authentication/*"],
+      "@interfaces/*": ["src/common/interfaces/*"]
+    }
+  },
+  "include": ["src/**/*", "test/**/*", "index.js"],
+  "exclude": ["node_modules"]
 }
