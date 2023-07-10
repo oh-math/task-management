@@ -30,6 +30,11 @@ describe('AuthenticationController', () => {
     );
   });
 
+  it('should be defined', () => {
+    expect(authenticationService).toBeDefined()
+    expect(authenticationController).toBeDefined()
+  })
+
   describe('login', () => {
     let userFake: UserModelRequest;
 

@@ -24,6 +24,6 @@
       "@interfaces/*": ["src/common/interfaces/*"]
     }
   },
-  "include": ["src/**/*", "test/**/*", "test/*", "index.js"],
+  "include": ["src/**/*", "test/**/*", "index.js"],
   "exclude": ["node_modules"]
 }

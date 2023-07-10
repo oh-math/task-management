@@ -40,7 +40,7 @@ export class UserService {
     return plainToInstance(UserResponse, result);
   }
 
-  async hashPassword(password: string): Promise<string> {
+  private async hashPassword(password: string): Promise<string> {
     const saltRounds = 10;
     return hash(password, saltRounds);
   }
