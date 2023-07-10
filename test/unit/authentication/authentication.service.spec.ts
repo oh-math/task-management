@@ -5,9 +5,10 @@ import { Test } from '@nestjs/testing';
 import { UserRepository } from '@user/user.repository';
 import { hash } from 'bcrypt';
 import {
+  FAKE_TOKEN,
   email as fakerEmail,
   password as fakerPassword,
-  userRawFake
+  userModelStub,
 } from 'test/helper';
 
 describe('AuthenticationService', () => {
@@ -53,15 +54,13 @@ describe('AuthenticationService', () => {
 
   describe('generateToken', () => {
     let userFake: UserModel;
-    const fakeToken =
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
 
     beforeAll(async () => {
-      userFake = userRawFake();
+      userFake = userModelStub();
     });
 
     it('when a `UserModel` object is given, should return a token object', () => {
-      jest.spyOn(jwtService, 'sign').mockReturnValue(fakeToken);
+      jest.spyOn(jwtService, 'sign').mockReturnValue(FAKE_TOKEN);
 
       const generatedToken = authenticationService.generateToken(userFake);
 
@@ -78,7 +77,7 @@ describe('AuthenticationService', () => {
     beforeAll(async () => {
       const hashedPassword = await hash(password, 10);
 
-      userFake = userRawFake({ password: hashedPassword });
+      userFake = userModelStub({ password: hashedPassword });
     });
 
     it('should return null when user does not exists', async () => {

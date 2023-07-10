@@ -8,7 +8,7 @@ const firstName = faker.person.firstName();
 const lastName = faker.person.lastName();
 const email = faker.internet.email();
 
-function userRawFake(fields?: Partial<UserModel>): UserModel {
+function userModelStub(fields?: Partial<UserModel>): UserModel {
   return {
     user_id,
     email,
@@ -21,4 +21,4 @@ function userRawFake(fields?: Partial<UserModel>): UserModel {
   };
 }
 
-export { userRawFake, user_id, password, firstName, lastName, email };
+export { userModelStub, user_id, password, firstName, lastName, email };
