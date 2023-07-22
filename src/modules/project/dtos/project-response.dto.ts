@@ -1,10 +1,10 @@
-import { Expose, Transform, Type } from 'class-transformer';
-import { formatDate } from 'src/common/utils/format-date';
+import { Exclude, Expose, Transform, Type } from 'class-transformer';
+import { formatDate } from '@utils/format-date';
 
 export class ProjectResponseDto {
   @Expose()
   name: string;
-  @Expose()
+  @Exclude()
   user_id: string;
 
   @Type(() => Date)
