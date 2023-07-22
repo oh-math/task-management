@@ -1,10 +1,9 @@
-import { Injectable } from '@nestjs/common';
-import { PrismaService } from 'src/config/prisma/prisma.service';
-import { IProject } from './interfaces/project.interface';
 import { ProjectModel } from '@models/project.model';
-import { FindUniqueOptions } from 'src/common/types/find-unique-options.type';
-import { CreateProjectDto, UpdateProjectDto } from './dtos';
+import { Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
+import { PrismaService } from 'src/config/prisma/prisma.service';
+import { CreateProjectDto, UpdateProjectDto } from './dtos';
+import { IProject } from './interfaces/project.interface';
 
 @Injectable()
 export class ProjectRepository implements IProject {
@@ -13,9 +12,12 @@ export class ProjectRepository implements IProject {
   public async create(input: CreateProjectDto): Promise<ProjectModel> {
     return await this.prismaService.project.create({ data: input });
   }
-  public async findMany(): Promise<ProjectModel[]> {
-    return await this.prismaService.project.findMany();
+  public async findMany(
+    options?: Prisma.ProjectFindManyArgs,
+  ): Promise<ProjectModel[]> {
+    return await this.prismaService.project.findMany(options);
   }
+
   public async findUnique(
     options: Prisma.ProjectFindUniqueOrThrowArgs,
   ): Promise<ProjectModel> {
@@ -29,6 +31,7 @@ export class ProjectRepository implements IProject {
       },
     });
   }
+
   public async update(
     id: string,
     input: UpdateProjectDto,
