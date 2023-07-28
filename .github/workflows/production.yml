@@ -9,7 +9,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version:
+        node-version: 
           - 18.x
     steps:
       - uses: actions/checkout@v3.1.0
@@ -26,16 +26,24 @@ jobs:
         run: pnpm i
     
       - name: Build project
-        run: pnpm build      
-      
-      - name: Set JWT_SECRET_KEY environment variable
-        run: echo "JWT_SECRET_KEY=$(openssl rand -base64 32)" >> $GITHUB_ENV
+        run: pnpm build
           
       - name: Create dotenv file
         run: |
           touch .env.test
-          echo JWT_SECRET_KEY=$JWT_SECRET_KEY >> .env.test
+          echo JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} >> .env.test
           cat .env.test
           
       - name: Run unit tests
         run: pnpm test:cov
+
+
+  Deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Render Deploy Action
+        uses: sws2apps/render-deployment@v1.4.0
+        with:
+          serviceId: ${{ secrets.SERVICE_ID }}
+          apiKey: ${{ secrets.API_KEY }}
