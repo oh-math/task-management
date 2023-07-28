@@ -3,11 +3,11 @@ import { NestFactory } from '@nestjs/core';
 import { Logger as PinoLogger } from 'nestjs-pino';
 import { AppModule } from './app.module';
 import { PrismaService } from './config/prisma/prisma.service';
-import configureDotenv from './config/env-config';
+import configureDotenvPath from './config/env-config';
 
-configureDotenv()
+configureDotenvPath()
 
-const NODE_ENV = process.env.NODE_ENV || 'dev';
+const NODE_ENV = process.env.NODE_ENV;
 const PORT = process.env.PORT || 3001;
 const logger = new Logger();
 

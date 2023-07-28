@@ -1,16 +1,20 @@
 import { config } from 'dotenv';
 import { join } from 'path';
 
-const configureDotenv = () => {
-  const NODE_ENV = process.env.NODE_ENV;
-  const rootDir = process.cwd();
+const NODE_ENV = process.env.NODE_ENV;
+const rootDir = process.cwd();
 
-  let envPath: string;
+function getDotenvPath(): string | undefined {
+  if (NODE_ENV === 'dev') return join(rootDir, '/.env.dev');
+  if (NODE_ENV === 'prod') return join(rootDir, '/.env.prod');
+}
 
-  if (NODE_ENV === 'dev') envPath = join(rootDir, '/.env.dev');
-  else if (NODE_ENV === 'prod') envPath = join(rootDir, '/.env.prod');
+function configureDotenvPath(): void {
+  const dotenvPath = getDotenvPath();
+  
+  if (dotenvPath) {
+    config({ path: dotenvPath });
+  }
+}
 
-  envPath && config({ path: envPath });
-};
-
-export default configureDotenv;
+export default configureDotenvPath;
