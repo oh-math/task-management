@@ -6,22 +6,27 @@ on:
 jobs:
   Integration:
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
         node-version:
           - 18.x
     steps:
-      - name: Copy repository
-        uses: actions/checkout@v3.1.0
-      - name: Use Node.js ${{ matrix.node-version }}
+      - uses: actions/checkout@v3.1.0
+        
+      - name: Use Node.js ${{matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
+    
       - name: Install pnpm
         run: npm install -g pnpm
+    
       - name: Install dependencies
         run: pnpm i
+    
       - name: Build project
         run: pnpm build
+    
       - name: Run unit tests
-      - run: pnpm test:cov
+        run: pnpm test:cov
