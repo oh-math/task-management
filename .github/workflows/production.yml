@@ -39,6 +39,7 @@ jobs:
 
 
   Deploy:
+    needs: Integration
     runs-on: ubuntu-latest
     
     steps:
