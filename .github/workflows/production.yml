@@ -3,6 +3,10 @@ on:
   push:
     branches:
       - master
+
+permissions:
+  issues: write
+  
 jobs:
   Integration:
     runs-on: ubuntu-latest
@@ -43,13 +47,15 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+   
       - name: Manual Workflow Approval
+          
         uses: trstringer/manual-approval@v1.9.0
         with:
           approvers: oh-math 
           secret: ${{ github.TOKEN }}
-          minimum-approvals: 1
-          
+          minimum-approvals: 1  
+                      
       - name: Render Deploy Action
         uses: sws2apps/render-deployment@v1.4.0
         with:
