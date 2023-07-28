@@ -3,9 +3,6 @@ on:
   push:
     branches:
       - master
-
-permissions:
-  issues: write
   
 jobs:
   Integration:
@@ -46,10 +43,11 @@ jobs:
     needs: Integration
     runs-on: ubuntu-latest
     
+    permissions:
+      issues: write
+      
     steps:
-   
-      - name: Manual Workflow Approval
-          
+      - name: Manual Workflow Approval    
         uses: trstringer/manual-approval@v1.9.0
         with:
           approvers: oh-math 
