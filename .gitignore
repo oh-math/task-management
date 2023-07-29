@@ -35,6 +35,6 @@ lerna-debug.log*
 !.vscode/extensions.json
 .env
 .env.dev
-
+.env.test
 # ATTENTION: do not store production variables(even if is git-ignored)
 .env.prod

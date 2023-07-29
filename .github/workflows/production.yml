@@ -1,0 +1,61 @@
+name: CI-CD
+on:
+  push:
+    branches:
+      - master
+  
+jobs:
+  Integration:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: 
+          - 18.x
+    steps:
+      - uses: actions/checkout@v3.1.0
+        
+      - name: Use Node.js ${{matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+    
+      - name: Install pnpm
+        run: npm install -g pnpm
+    
+      - name: Install dependencies
+        run: pnpm i
+    
+      - name: Build project
+        run: pnpm build
+          
+      - name: Create dotenv file
+        run: |
+          touch .env.test
+          echo JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} >> .env.test
+          cat .env.test
+          
+      - name: Run unit tests
+        run: pnpm test:cov
+
+
+  Deploy:
+    needs: Integration
+    runs-on: ubuntu-latest
+    
+    permissions:
+      issues: write
+      
+    steps:
+      - name: Manual Workflow Approval    
+        uses: trstringer/manual-approval@v1.9.0
+        with:
+          approvers: oh-math 
+          secret: ${{ github.TOKEN }}
+          minimum-approvals: 1  
+                      
+      - name: Render Deploy Action
+        uses: sws2apps/render-deployment@v1.4.0
+        with:
+          serviceId: ${{ secrets.SERVICE_ID }}
+          apiKey: ${{ secrets.API_KEY }}
