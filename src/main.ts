@@ -1,14 +1,19 @@
-import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { Logger as PinoLogger } from 'nestjs-pino';
 import { Logger, ValidationPipe } from '@nestjs/common';
+import { NestFactory } from '@nestjs/core';
+import { Logger as PinoLogger } from 'nestjs-pino';
+import { AppModule } from './app.module';
 import { PrismaService } from './config/prisma/prisma.service';
+import configureDotenvPath from './config/env-config';
 
+configureDotenvPath()
+
+const NODE_ENV = process.env.NODE_ENV;
 const PORT = process.env.PORT || 3001;
 const logger = new Logger();
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { bufferLogs: true });
+
   const prismaService = app.get(PrismaService);
 
   app.useGlobalPipes(new ValidationPipe());
@@ -17,5 +22,6 @@ async function bootstrap() {
 
   await prismaService.enableShutdownHooks(app);
   await app.listen(PORT, () => logger.log(`Server is running on port ${PORT}`));
+  logger.log(`Running on ${NODE_ENV.toUpperCase()} environment`);
 }
 bootstrap();

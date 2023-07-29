@@ -4,6 +4,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { PrismaService } from './config/prisma/prisma.service';
 import { UserModule } from './modules/user/user.module';
 import { AppController } from './app.controller';
+import { ProjectModule } from './modules/project/project.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { AppController } from './app.controller';
       },
     }),
     UserModule,
+    ProjectModule,
     AuthenticationModule,
   ],
   controllers: [AppController],

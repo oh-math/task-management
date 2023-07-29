@@ -21,7 +21,8 @@
       "@user/*": ["src/modules/user/*"],
       "@models/*": ["src/models/*"],
       "@authentication/*": ["src/authentication/*"],
-      "@interfaces/*": ["src/common/interfaces/*"]
+      "@common/interfaces": ["src/common/interfaces/index.ts"],
+      "@utils/*": ["src/common/utils/*"]
     }
   },
   "include": ["src/**/*", "test/**/*", "index.js"],

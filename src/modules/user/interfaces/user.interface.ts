@@ -1,4 +1,4 @@
-import { FindUniqueOptions } from 'src/common/types/find-unique-options.types';
+import { FindUniqueOptions } from 'src/common/types/find-unique-options.type';
 import { UserModel } from 'src/models/user.model';
 import { CreateUserDto, UpdateUserDto } from '../dtos';
 

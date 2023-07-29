@@ -1,22 +1,19 @@
 import { Exclude, Expose, Transform, Type } from 'class-transformer';
 import { formatDate } from '@utils/format-date';
 
-export class UserResponse {
-  @Expose()
-  user_id: string;
-  @Expose()
-  email: string;
-  @Exclude()
-  password: string;
+export class ProjectResponseDto {
   @Expose()
   name: string;
+  @Exclude()
+  user_id: string;
 
-  @Expose()
   @Type(() => Date)
+  @Expose()
   @Transform(({ value }) => formatDate(value), { toClassOnly: true })
   createdAt: string;
-  @Expose()
+
   @Type(() => Date)
+  @Expose()
   @Transform(({ value }) => formatDate(value), { toClassOnly: true })
   updatedAt: string;
 }

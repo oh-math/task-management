@@ -22,7 +22,7 @@ export class UserRepository implements IUser {
 
   public async findUnique(
     options: Prisma.UserFindUniqueOrThrowArgs,
-  ): Promise<UserModel | null> {
+  ): Promise<UserModel> {
     return this.prisma.user.findUniqueOrThrow(options);
   }
 
