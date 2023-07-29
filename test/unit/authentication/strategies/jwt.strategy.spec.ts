@@ -1,5 +1,5 @@
 import { JwtStrategy } from '@authentication/strategies';
-import { PayloadJWT } from '@interfaces/payload-jwt.interface';
+import { PayloadJWT } from '@common/interfaces';
 import { Test } from '@nestjs/testing';
 import { email as fakerEmail, user_id as fakerId } from 'test/helper';
 

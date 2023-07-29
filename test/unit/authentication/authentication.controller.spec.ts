@@ -1,6 +1,6 @@
 import { AuthenticationController } from '@authentication/authentication.controller';
 import { AuthenticationService } from '@authentication/authentication.service';
-import { UserModelRequest } from '@interfaces/user-model-request.interface';
+import { UserModelRequest } from '@common/interfaces';
 import { Test } from '@nestjs/testing';
 import { FAKE_TOKEN } from 'test/helper';
 import { userModelStub } from 'test/helper/user-raw.stub';
