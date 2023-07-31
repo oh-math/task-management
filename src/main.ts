@@ -5,7 +5,7 @@ import { AppModule } from './app.module';
 import { PrismaService } from './config/prisma/prisma.service';
 import configureDotenvPath from './config/env-config';
 
-configureDotenvPath()
+configureDotenvPath();
 
 const NODE_ENV = process.env.NODE_ENV;
 const PORT = process.env.PORT || 3001;
@@ -19,6 +19,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.useLogger(app.get(PinoLogger));
   app.flushLogs();
+  app.getHttpAdapter().getInstance().set('json spaces', 2);
 
   await prismaService.enableShutdownHooks(app);
   await app.listen(PORT, () => logger.log(`Server is running on port ${PORT}`));
