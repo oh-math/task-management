@@ -4,12 +4,12 @@ import { JwtService } from '@nestjs/jwt';
 import { Test } from '@nestjs/testing';
 import { UserRepository } from '@user/user.repository';
 import { hash } from 'bcrypt';
+import { FAKE_TOKEN } from 'test/helper/fake-token';
 import {
-  FAKE_TOKEN,
   email as fakerEmail,
   password as fakerPassword,
   userModelStub,
-} from 'test/helper';
+} from 'test/helper/user';
 
 describe('AuthenticationService', () => {
   let authenticationService: AuthenticationService;

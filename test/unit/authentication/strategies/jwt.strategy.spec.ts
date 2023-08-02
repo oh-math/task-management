@@ -1,7 +1,7 @@
 import { JwtStrategy } from '@authentication/strategies';
 import { PayloadJWT } from '@common/interfaces';
 import { Test } from '@nestjs/testing';
-import { email as fakerEmail, user_id as fakerId } from 'test/helper';
+import { email as fakerEmail, user_id as fakerId } from 'test/helper/user';
 
 describe('JwtStrategy', () => {
   let jwtStrategy: JwtStrategy;

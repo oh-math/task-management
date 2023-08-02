@@ -7,7 +7,7 @@ import {
   email as fakerEmail,
   password as fakerPassword,
   userModelStub,
-} from 'test/helper';
+} from 'test/helper/user';
 
 describe('LocalStrategy', () => {
   let localStrategy: LocalStrategy;
