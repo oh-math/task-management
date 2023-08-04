@@ -5,10 +5,10 @@ import { UserService } from '@user/user.service';
 import {
   createUserStub,
   updateUserStub,
+  userResponseMatcher,
   userResponseStub,
   user_id,
 } from 'test/helper/user';
-
 
 describe('UserController', () => {
   let userController: UserController;
@@ -39,6 +39,9 @@ describe('UserController', () => {
     expect(userService).toBeDefined();
   });
 
+  beforeEach(() => jest.clearAllMocks());
+
+  
   describe('create', () => {
     let createUserInput: CreateUserDto;
     let userResponse: UserResponse;
@@ -59,20 +62,18 @@ describe('UserController', () => {
       const user = await userController.create(createUserInput);
       const { email, name } = createUserInput;
 
-      expect(user).toMatchObject<UserResponse>({
-        user_id: expect.any(String),
-        name,
-        email,
-        createdAt: expect.any(String),
-        updatedAt: expect.any(String),
-      });
+      expect(user).toMatchObject<UserResponse>(
+        userResponseMatcher({ email, name }),
+      );
     });
 
     it('should call `userService.create` 1 times', async () => {
       await userController.create(createUserInput);
 
       expect(userService.create).toBeCalledTimes(1);
-      expect(userService.create).toBeCalledWith(createUserInput);
+      expect(userService.create).toBeCalledWith<[CreateUserDto]>(
+        createUserInput,
+      );
     });
   });
 
@@ -100,11 +101,10 @@ describe('UserController', () => {
 
   describe('findByIdOrEmail', () => {
     let userResponse: UserResponse;
-    let userId: string;
+    let userId = user_id;
 
     beforeEach(() => {
-      userResponse = userResponseStub();
-      userId = userResponse.user_id;
+      userResponse = userResponseStub({ user_id: userId });
 
       jest
         .spyOn(userService, 'findByIdOrEmail')
@@ -114,20 +114,18 @@ describe('UserController', () => {
     it('should return promise of type `UserResponse`', async () => {
       const user = await userController.findByIdOrEmail(userId);
 
-      expect(user).toMatchObject<UserResponse>({
-        user_id: userId,
-        name: expect.any(String),
-        email: expect.any(String),
-        createdAt: expect.any(String),
-        updatedAt: expect.any(String),
-      });
+      expect(user).toMatchObject<UserResponse>(
+        userResponseMatcher({
+          user_id: userId,
+        }),
+      );
     });
 
     it('should call `userService.findByIdOrEmail` 1 times', async () => {
       await userController.findByIdOrEmail(userId);
 
       expect(userService.findByIdOrEmail).toBeCalledTimes(1);
-      expect(userService.findByIdOrEmail).toBeCalledWith(userId);
+      expect(userService.findByIdOrEmail).toBeCalledWith<[string]>(userId);
     });
   });
 
@@ -142,25 +140,24 @@ describe('UserController', () => {
       await userController.delete(userId);
 
       expect(userService.delete).toBeCalledTimes(1);
-      expect(userService.delete).toBeCalledWith(userId);
+      expect(userService.delete).toBeCalledWith<[string]>(userId);
     });
   });
 
   describe('update', () => {
     let userResponse: UserResponse;
     let updateUserInput: UpdateUserDto;
-    let userId: string;
+    let userId = user_id;
 
     beforeEach(() => {
       updateUserInput = updateUserStub();
       const { email, name } = updateUserInput;
 
       userResponse = userResponseStub({
+        user_id: userId,
         email,
         name,
       });
-
-      userId = userResponse.user_id;
 
       jest.spyOn(userService, 'update').mockResolvedValue(userResponse);
     });
@@ -169,20 +166,23 @@ describe('UserController', () => {
       const { email, name } = updateUserInput;
       const user = await userController.update(updateUserInput, userId);
 
-      expect(user).toMatchObject<UserResponse>({
-        user_id: userId,
-        name,
-        email,
-        createdAt: expect.any(String),
-        updatedAt: expect.any(String),
-      });
+      expect(user).toMatchObject<UserResponse>(
+        userResponseMatcher({
+          user_id: userId,
+          email,
+          name,
+        }),
+      );
     });
 
     it('should call `userService.update` 1 times', async () => {
       await userController.update(updateUserInput, userId);
 
       expect(userService.update).toBeCalledTimes(1);
-      expect(userService.update).toBeCalledWith(userId, updateUserInput);
+      expect(userService.update).toBeCalledWith<[string, UpdateUserDto]>(
+        userId,
+        updateUserInput,
+      );
     });
   });
 });
