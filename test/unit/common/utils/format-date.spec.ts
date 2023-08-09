@@ -1,7 +1,7 @@
 import { formatDate } from '@utils/format-date';
 
 describe('formatDate', () => {
-  it('should return Date formatted containing only yyyy/MM/DD', () => {
+  it('should return Date containing yyyy/MM/DD format', () => {
     const currentDate = new Date();
     const formattedDate = formatDate(currentDate);
 
