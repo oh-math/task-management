@@ -22,7 +22,8 @@
       "@models/*": ["src/models/*"],
       "@authentication/*": ["src/authentication/*"],
       "@common/interfaces": ["src/common/interfaces/index.ts"],
-      "@utils/*": ["src/common/utils/*"]
+      "@utils/*": ["src/common/utils/*"],
+      "@config/*": ["src/config/*"]
     }
   },
   "include": ["src/**/*", "test/**/*", "index.js"],
