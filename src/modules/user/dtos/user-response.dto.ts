@@ -1,5 +1,5 @@
 import { formatDate } from '@utils/format-date';
-import { Expose, Transform, Type } from 'class-transformer';
+import { Exclude, Expose, Transform, Type } from 'class-transformer';
 
 export class UserResponse {
   @Expose()
@@ -8,6 +8,9 @@ export class UserResponse {
   email: string;
   @Expose()
   name: string;
+
+  @Exclude()
+  password: string;
 
   @Expose()
   @Type(() => Date)
