@@ -8,9 +8,8 @@ export class UserResponse {
   email: string;
   @Expose()
   name: string;
-
   @Exclude()
-  password: string;
+  password?: string;
 
   @Expose()
   @Type(() => Date)

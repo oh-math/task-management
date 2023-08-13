@@ -22,6 +22,7 @@
       "@models/*": ["src/models/*"],
       "@authentication/*": ["src/authentication/*"],
       "@common/interfaces": ["src/common/interfaces/index.ts"],
+      "@common/pipes": ["src/common/pipes/index.ts"],
       "@utils/*": ["src/common/utils/*"],
       "@config/*": ["src/config/*"]
     }
