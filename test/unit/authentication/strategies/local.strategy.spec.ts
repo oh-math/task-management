@@ -1,7 +1,7 @@
 import { AuthenticationService } from '@authentication/authentication.service';
 import { LocalStrategy } from '@authentication/strategies';
 import { UserModel } from '@models/user.model';
-import { UnauthorizedException } from '@nestjs/common';
+import { HttpStatus, UnauthorizedException } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import {
   email as fakerEmail,
@@ -33,9 +33,9 @@ describe('LocalStrategy', () => {
   });
 
   it('should be defined', () => {
-    expect(localStrategy).toBeDefined()
-    expect(authenticationService).toBeDefined()
-  })
+    expect(localStrategy).toBeDefined();
+    expect(authenticationService).toBeDefined();
+  });
 
   describe('validate', () => {
     let userFake: UserModel;
@@ -84,7 +84,7 @@ describe('LocalStrategy', () => {
 
       await expect(validatedUSer).rejects.toThrow(UnauthorizedException);
       await expect(validatedUSer).rejects.toMatchObject({
-        status: 401,
+        status: HttpStatus.UNAUTHORIZED,
         message: 'E-mail and/or password invalid',
       });
     });
