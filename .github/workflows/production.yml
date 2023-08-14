@@ -12,13 +12,14 @@ jobs:
           - 18.x
     steps:
       - uses: actions/checkout@v3.1.0
+     
       - name: 'Use Node.js ${{matrix.node-version }}'
         uses: actions/setup-node@v3
         with:
           node-version: '${{ matrix.node-version }}'
 
-      - name: Install pnpm
-        run: npm install -g pnpm
+      - name: Install global dependencies 
+        run: npm install -g pnpm dotenv-cli prisma
       
       - name: Install dependencies
         run: pnpm i
@@ -28,24 +29,33 @@ jobs:
       
       - name: Create dotenv file
         run: |
-          touch .env.test
-          echo JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} >> .env.test
-          echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env.test
-          echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env.test
-          echo POSTGRES_DB=${{ secrets.POSTGRES_DB }} >> .env.test
-          echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env.test
+          printf "JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}\nPOSTGRES_USER=${{ secrets.POSTGRES_USER }}\nPOSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}\nPOSTGRES_DB=${{ secrets.POSTGRES_DB }}\nDATABASE_URL=${{ secrets.DATABASE_URL }}\n" > .env.test
       
       - name: Run unit tests
         run: 'pnpm test:cov'
                  
+      - name: Create docker compose file
+        run: |
+          cat << EOF > e2e-docker-compose.yml
+          version: '3.8'
+
+          services:
+            database:
+              image: postgres:latest
+              container_name: task-management-postgred
+              restart: always
+              env_file:
+                - .env.test
+              volumes:
+                - database:/data/postgres
+              ports:
+                - '5433:5432'
+          volumes:
+            database:
+          EOF
+
       - name: Start PostgreSQL container
-        run: docker-compose up -d --build
-      
-      - name: Install Dotenv
-        run: npm install -g dotenv-cli
-        
-      - name: Install Prisma
-        run: npm install -g prisma
+        run: docker-compose -f e2e-docker-compose.yml up -d --build
       
       - name: Migrate Prisma Schema
         run: pnpm dotenv -e .env.test -- npx prisma migrate dev

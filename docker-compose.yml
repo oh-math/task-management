@@ -6,7 +6,7 @@ services:
     container_name: task-management-postgred
     restart: always
     env_file:
-      - .env.test
+      - .env.dev
     volumes:
       - database:/data/postgres
     ports:
