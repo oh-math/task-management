@@ -37,33 +37,16 @@ jobs:
       
       - name: Run unit tests
         run: 'pnpm test:cov'
-      
-      - name: Create docker-compose.yml file
-        run: |
-          cat docker-compose.yml
-          version: '3.8'
-
-          services:
-            database:
-            image: postgres:latest
-            container_name: task-management-postgred
-            restart: always
-            env_file:
-              - .env.dev
-            volumes:
-              - database:/data/postgres
-            ports:
-              - '5433:5432'
-              
-          volumes:
-           database:
-           
+                 
       - name: Start PostgreSQL container
-        run: docker-compose up -d
+        run: docker-compose up -d --build
+
       - name: Install Prisma CLI
         run: pnpm add -g prisma
+      
       - name: Migrate Prisma Schema
         run: pnpm dotenv -e .env.test -- npx prisma migrate dev
+      
       - name: Run e2e tests
         run: 'pnpm test:e2e'
 
