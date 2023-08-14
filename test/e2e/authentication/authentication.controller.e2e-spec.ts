@@ -51,8 +51,9 @@ describe('AuthenticationController (e2e)', () => {
     });
 
     it('(POST) should login user', async () => {
+
       const { email, password } = createdUser;
-      const uri = '/api/auth/login'
+      const uri = '/api/auth/login';
 
       await request(app.getHttpServer())
         .post(uri)
