@@ -1,13 +1,15 @@
+import { forRootObject } from '@config/env-config';
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { LoggerModule } from 'nestjs-pino';
+import { AppController } from './app.controller';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { PrismaService } from './config/prisma/prisma.service';
-import { UserModule } from './modules/user/user.module';
-import { AppController } from './app.controller';
 import { ProjectModule } from './modules/project/project.module';
-
+import { UserModule } from './modules/user/user.module';
 @Module({
   imports: [
+    ConfigModule.forRoot(forRootObject),
     LoggerModule.forRoot({
       pinoHttp: {
         transport: {
