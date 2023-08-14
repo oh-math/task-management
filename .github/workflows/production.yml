@@ -1,34 +1,31 @@
 name: CI-CD
-on:
+'on':
   push:
     branches:
       - master
-  
 jobs:
   Integration:
     runs-on: ubuntu-latest
-
     strategy:
       matrix:
-        node-version: 
+        node-version:
           - 18.x
     steps:
       - uses: actions/checkout@v3.1.0
-        
-      - name: Use Node.js ${{matrix.node-version }}
+      - name: 'Use Node.js ${{matrix.node-version }}'
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
-    
+          node-version: '${{ matrix.node-version }}'
+
       - name: Install pnpm
         run: npm install -g pnpm
-    
+      
       - name: Install dependencies
         run: pnpm i
-    
+      
       - name: Build project
         run: pnpm build
-          
+      
       - name: Create dotenv file
         run: |
           touch .env.test
@@ -37,40 +34,56 @@ jobs:
           echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env.test
           echo POSTGRES_DB=${{ secrets.POSTGRES_DB }} >> .env.test
           echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env.test
-          
+      
       - name: Run unit tests
-        run: pnpm test:cov
+        run: 'pnpm test:cov'
+      
+      - name: Create docker-compose.yml file
+        run: |
+          cat docker-compose.yml
+          version: '3.8'
 
+          services:
+            database:
+            image: postgres:latest
+            container_name: task-management-postgred
+            restart: always
+            env_file:
+              - .env.dev
+            volumes:
+              - database:/data/postgres
+            ports:
+              - '5433:5432'
+              
+          volumes:
+           database:
+           
       - name: Start PostgreSQL container
         run: docker-compose up -d
-
       - name: Install Prisma CLI
         run: pnpm add -g prisma
-
       - name: Migrate Prisma Schema
         run: pnpm dotenv -e .env.test -- npx prisma migrate dev
-      
       - name: Run e2e tests
-        run: pnpm test:e2e
-
+        run: 'pnpm test:e2e'
 
   Deploy:
     needs: Integration
     runs-on: ubuntu-latest
-    
+
     permissions:
       issues: write
-      
+
     steps:
-      - name: Manual Workflow Approval    
+      - name: Manual Workflow Approval
         uses: trstringer/manual-approval@v1.9.0
         with:
-          approvers: oh-math 
-          secret: ${{ github.TOKEN }}
-          minimum-approvals: 1  
-                      
+          approvers: oh-math
+          secret: '${{ github.TOKEN }}'
+          minimum-approvals: 1
+
       - name: Render Deploy Action
         uses: sws2apps/render-deployment@v1.4.0
         with:
-          serviceId: ${{ secrets.SERVICE_ID }}
-          apiKey: ${{ secrets.API_KEY }}
+          serviceId: '${{ secrets.SERVICE_ID }}'
+          apiKey: '${{ secrets.API_KEY }}'
