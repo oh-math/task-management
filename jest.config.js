@@ -24,6 +24,7 @@ module.exports = {
     '<rootDir>/src/config/prisma/prisma.service.ts',
     '.module.ts',
     '.dto.ts',
+    '.pipe.ts',
     'index.ts',
   ],
   testEnvironment: 'node',
