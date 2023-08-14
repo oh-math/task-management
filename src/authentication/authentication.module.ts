@@ -8,13 +8,14 @@ import { UserRepository } from 'src/modules/user/user.repository';
 import { AuthenticationController } from './authentication.controller';
 import { AuthenticationService } from './authentication.service';
 import { JwtStrategy, LocalStrategy } from './strategies';
+import { configureDotenvPath } from '@config/dotenv-config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
     UserModule,
     PassportModule,
     JwtModule.register({
+      secret: 'wooow',
       privateKey: process.env.JWT_SECRET_KEY,
       signOptions: { expiresIn: '30min' },
     }),
