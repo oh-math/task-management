@@ -41,6 +41,12 @@ jobs:
       - name: Start PostgreSQL container
         run: docker-compose up -d --build
       
+      - name: Install Dotenv
+        run: npm install -g dotenv-cli
+        
+      - name: Install Prisma
+        run: npm install -g prisma
+      
       - name: Migrate Prisma Schema
         run: pnpm dotenv -e .env.test -- npx prisma migrate dev
       
