@@ -33,10 +33,30 @@ jobs:
         run: |
           touch .env.test
           echo JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} >> .env.test
-          cat .env.test
+          echo POSTGRES_USER=${{ secrets.POSTGRES_USER }} >> .env.test
+          echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env.test
+          echo POSTGRES_DB=${{ secrets.POSTGRES_DB }} >> .env.test
+          echo DATABASE_URL=${{ secrets.DATABASE_URL }} >> .env.test
           
       - name: Run unit tests
         run: pnpm test:cov
+
+      - name: Install Docker and Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker.io docker-compose
+
+      - name: Start PostgreSQL container
+        run: docker-compose up -d
+
+      - name: Install Prisma CLI
+        run: pnpm add -g prisma
+
+      - name: Migrate Prisma Schema
+        run: pnpm dotenv -e .env.test -- npx prisma migrate dev
+      
+      - name: Run e2e tests
+        run: pnpm test:e2e
 
 
   Deploy:

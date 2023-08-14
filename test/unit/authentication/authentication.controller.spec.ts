@@ -2,8 +2,8 @@ import { AuthenticationController } from '@authentication/authentication.control
 import { AuthenticationService } from '@authentication/authentication.service';
 import { UserModelRequest } from '@common/interfaces';
 import { Test } from '@nestjs/testing';
-import { FAKE_TOKEN } from 'test/helper';
-import { userModelStub } from 'test/helper/user-raw.stub';
+import { FAKE_TOKEN } from 'test/helper/fake-token';
+import { userModelStub } from 'test/helper/user';
 
 describe('AuthenticationController', () => {
   let authenticationService: AuthenticationService;
@@ -15,19 +15,16 @@ describe('AuthenticationController', () => {
         {
           provide: AuthenticationService,
           useValue: {
-            generateToken: jest.fn().mockResolvedValue(null),
+            generateToken: jest.fn(),
           },
         },
       ],
-      controllers: [AuthenticationController],
     }).compile();
 
     authenticationService = moduleRef.get<AuthenticationService>(
       AuthenticationService,
     );
-    authenticationController = moduleRef.get<AuthenticationController>(
-      AuthenticationController,
-    );
+    authenticationController = new AuthenticationController(authenticationService)
   });
 
   it('should be defined', () => {

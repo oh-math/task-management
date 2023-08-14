@@ -1,19 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import { hash } from 'bcrypt';
 import { plainToInstance } from 'class-transformer';
 import { CreateUserDto, UpdateUserDto, UserResponse } from './dtos';
 import { UserRepository } from './user.repository';
+import { hashPassword } from '@utils/password-hashing';
 
 @Injectable()
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
 
   public async create(input: CreateUserDto): Promise<UserResponse> {
-    const hashedPassword = await this.hashPassword(input.password);
+    const hashedPassword = await hashPassword(input.password);
 
-    const user = { ...input, password: hashedPassword };
+    const finalUser: CreateUserDto = { ...input, password: hashedPassword };
 
-    const result = await this.userRepository.create(user);
+    const result = await this.userRepository.create(finalUser);
 
     return plainToInstance(UserResponse, result);
   }
@@ -38,10 +38,5 @@ export class UserService {
     const result = await this.userRepository.update(id, input);
 
     return plainToInstance(UserResponse, result);
-  }
-
-  private async hashPassword(password: string): Promise<string> {
-    const saltRounds = 10;
-    return hash(password, saltRounds);
   }
 }

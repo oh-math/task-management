@@ -1,15 +1,15 @@
-import { Exclude, Expose, Transform, Type } from 'class-transformer';
 import { formatDate } from '@utils/format-date';
+import { Exclude, Expose, Transform, Type } from 'class-transformer';
 
 export class UserResponse {
   @Expose()
   user_id: string;
   @Expose()
   email: string;
-  @Exclude()
-  password: string;
   @Expose()
   name: string;
+  @Exclude()
+  password?: string;
 
   @Expose()
   @Type(() => Date)

@@ -29,9 +29,9 @@ export class UserController {
     return this.userService.findAll();
   }
   @UseGuards(JWTAuthGuard)
-  @Get('by-id-or-email/:id')
-  public async findByIdOrEmail(@Param('id') id: string): Promise<UserResponse> {
-    return this.userService.findByIdOrEmail(id);
+  @Get('by-id-or-email/:idOrEmail')
+  public async findByIdOrEmail(@Param('idOrEmail') idOrEmail: string): Promise<UserResponse> {
+    return this.userService.findByIdOrEmail(idOrEmail);
   }
 
   @UseGuards(JWTAuthGuard)

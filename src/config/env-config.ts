@@ -1,20 +1,25 @@
-import { config } from 'dotenv';
-import { join } from 'path';
+import * as Joi from 'joi';
 
-const NODE_ENV = process.env.NODE_ENV;
-const rootDir = process.cwd();
+const envFilePath = `${process.cwd()}/.env.${process.env.NODE_ENV}`;
 
-function getDotenvPath(): string | undefined {
-  if (NODE_ENV === 'dev') return join(rootDir, '/.env.dev');
-  if (NODE_ENV === 'prod') return join(rootDir, '/.env.prod');
-}
+const validationSchema = Joi.object({
+  POSTGRES_USER: Joi.string(),
+  POSTGRES_PASSWORD: Joi.string(),
+  POSTGRES_DB: Joi.string(),
+  DATABASE_URL: Joi.string(),
+  JWT_SECRET_KEY: Joi.string(),
+  NODE_ENV: Joi.string().valid('dev', 'prod', 'test').default('dev'),
+  PORT: Joi.number().default(3000),
+});
 
-function configureDotenvPath(): void {
-  const dotenvPath = getDotenvPath();
-  
-  if (dotenvPath) {
-    config({ path: dotenvPath });
-  }
-}
+const forRootObject = {
+  envFilePath,
+  isGlobal: true,
+  validationSchema,
+  validationOptions: {
+    allowUnknown: true,
+    abortEarly: true,
+  },
+};
 
-export default configureDotenvPath;
+export { validationSchema, envFilePath, forRootObject };
