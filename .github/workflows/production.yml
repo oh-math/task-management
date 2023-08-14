@@ -37,6 +37,9 @@ jobs:
       - name: Run unit tests
         run: pnpm test:cov
 
+      - name: Run e2e tests
+        run: pnpm test:e2e
+
 
   Deploy:
     needs: Integration
