@@ -40,9 +40,6 @@ jobs:
                  
       - name: Start PostgreSQL container
         run: docker-compose up -d --build
-
-      - name: Install Prisma CLI
-        run: pnpm add -g prisma
       
       - name: Migrate Prisma Schema
         run: pnpm dotenv -e .env.test -- npx prisma migrate dev
