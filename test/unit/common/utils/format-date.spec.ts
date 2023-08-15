@@ -1,4 +1,4 @@
-import { formatDate } from '@utils/format-date';
+import { formatDate } from '@utils/date-formatting';
 
 describe('formatDate', () => {
   it('should return Date containing yyyy/MM/DD format', () => {
