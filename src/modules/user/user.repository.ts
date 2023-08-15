@@ -11,31 +11,30 @@ export class UserRepository implements IUser {
   constructor(private readonly prisma: PrismaService) {}
 
   public async create(input: CreateUserDto): Promise<UserModel> {
-    return await this.prisma.user.create({
+    return await this.prisma.client.user.create({
       data: input,
     });
   }
 
   public async findMany(): Promise<UserModel[]> {
-    return await this.prisma.user.findMany();
+    return await this.prisma.client.user.findMany();
   }
 
   public async findUnique(
     options: Prisma.UserFindUniqueOrThrowArgs,
   ): Promise<UserModel> {
-    return this.prisma.user.findUniqueOrThrow(options);
+    return this.prisma.client.user.findUniqueOrThrow(options);
   }
 
-
   public async findByIdOrEmail(input: string): Promise<UserModel> {
-    return await this.prisma.user.findFirst({
+    return await this.prisma.client.user.findFirst({
       where: {
         OR: [{ user_id: input }, { email: input }],
       },
     });
   }
   public async delete(id: string): Promise<void> {
-    await this.prisma.user.delete({
+    await this.prisma.client.user.delete({
       where: {
         user_id: id,
       },
@@ -43,7 +42,7 @@ export class UserRepository implements IUser {
   }
 
   public async update(id: string, input: UpdateUserDto): Promise<UserModel> {
-    return await this.prisma.user.update({
+    return await this.prisma.client.user.update({
       where: {
         user_id: id,
       },

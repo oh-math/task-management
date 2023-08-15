@@ -1,3 +1,5 @@
+import { forRootObject } from '@config/env-config';
+import { PrismaModule } from '@config/prisma/prisma.module';
 import { PrismaService } from '@config/prisma/prisma.service';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
@@ -9,7 +11,6 @@ import { AuthenticationController } from './authentication.controller';
 import { AuthenticationService } from './authentication.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
-import { forRootObject } from '@config/env-config';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { forRootObject } from '@config/env-config';
       secret: process.env.JWT_SECRET_KEY,
       signOptions: { expiresIn: '30min' },
     }),
+    PrismaModule,
   ],
   providers: [
     AuthenticationService,
