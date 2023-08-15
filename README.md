@@ -65,7 +65,7 @@ docker compose up -d
 
 #### 3. Aplicando migrações do prisma
 
-    pnpm prisma db push
+    pnpm push
 
 
 
