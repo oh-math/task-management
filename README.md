@@ -4,7 +4,7 @@ Qual o propósito dessa API?
 
 Essa API foi modelada e criada por mim com base nas entidades observadas do site [todoist.com](https://todoist.com/)
 
-obs: a modelagem pode ser achada no arquivo `model.drawio`` na raiz do projeto
+obs: a modelagem pode ser achada no arquivo `model.drawio` na raiz do projeto
 
 Quais funcionalidade e conceitos você verá aqui?
 
@@ -16,7 +16,7 @@ Quais funcionalidade e conceitos você verá aqui?
 - Testes de Unidade seguindo as melhores práticas de testagem de software (com o uso do pattern Humble Object por exemplo) e testes E2E
 - Clean Code e SOLID
 
-## O que está aqui documentado
+## Tabela de conteúdos
 1. [Inicializando localmente](#inicializando-localmente)
 2. [Configurando o JWT](#configurando-o-jwt)
 3. [Testando a API](#testando-a-api)
@@ -34,7 +34,13 @@ Quais funcionalidade e conceitos você verá aqui?
 **Atenção**: execute os comandos a seguir na raiz do projeto
 
 #### 1. Instalando dependências 
+primeiro clone esse projeto para um diretório local seu
 
+```bash
+  git clone git@github.com:oh-math/task-management.git 
+```
+
+instale as dependências
 ```bash
     pnpm install
 
