@@ -2,18 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
 import { CreateProjectDto, ProjectResponseDto, UpdateProjectDto } from './dtos';
 import { ProjectRepository } from './project.repository';
+import { userIncludes } from '@utils/user-includes';
 
-const userIncludes = {
-  user: {
-    select: {
-      user_id: true,
-      email: true,
-      name: true,
-      createdAt: true,
-      updatedAt: true,
-    },
-  },
-};
 
 @Injectable()
 export class ProjectService {

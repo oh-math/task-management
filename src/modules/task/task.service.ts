@@ -5,6 +5,7 @@ import { TaskResponseDto } from './dtos/task-response.dto';
 import { UpdateTaskDto } from './dtos/update-task.dto';
 import { TaskRepository } from './task.repository';
 import { skipDay } from '@utils/date-formatting';
+import { userIncludes } from '@utils/user-includes';
 
 @Injectable()
 export class TaskService {
@@ -29,7 +30,9 @@ export class TaskService {
   }
 
   public async findAll(): Promise<TaskResponseDto[]> {
-    const tasks = await this.taskRepository.findMany();
+    const tasks = await this.taskRepository.findMany({
+      include: userIncludes
+    });
 
     return plainToInstance(TaskResponseDto, tasks);
   }
