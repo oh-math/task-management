@@ -7,6 +7,7 @@ import { AppController } from './app.controller';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { ProjectModule } from './modules/project/project.module';
 import { UserModule } from './modules/user/user.module';
+import { TaskModule } from './modules/task/task.module';
 @Module({
   imports: [
     ConfigModule.forRoot(forRootObject),
@@ -23,6 +24,7 @@ import { UserModule } from './modules/user/user.module';
     UserModule,
     ProjectModule,
     AuthenticationModule,
+    TaskModule,
     PrismaModule,
   ],
   controllers: [AppController],
