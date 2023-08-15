@@ -33,6 +33,12 @@ describe('AuthenticationController (e2e)', () => {
     userService = new UserService(userRepository);
   });
 
+  it('should be defined', () => {
+    expect(prisma).toBeDefined();
+    expect(userRepository).toBeDefined();
+    expect(userService).toBeDefined();
+  });
+
   describe('/api/auth/login', () => {
     const userPassword = password;
     let user: UserResponse;
@@ -51,7 +57,6 @@ describe('AuthenticationController (e2e)', () => {
     });
 
     it('(POST) should login user', async () => {
-
       const { email, password } = createdUser;
       const uri = '/api/auth/login';
 
