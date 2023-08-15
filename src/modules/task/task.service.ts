@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
+import { skipDay } from '@utils/date-formatting';
+import { taskIncludes } from '@utils/task-includes';
 import { plainToInstance } from 'class-transformer';
 import { CreateTaskDto } from './dtos/create-task.dto';
 import { TaskResponseDto } from './dtos/task-response.dto';
 import { UpdateTaskDto } from './dtos/update-task.dto';
 import { TaskRepository } from './task.repository';
-import { skipDay } from '@utils/date-formatting';
-import { userIncludes } from '@utils/user-includes';
 
 @Injectable()
 export class TaskService {
@@ -24,6 +24,7 @@ export class TaskService {
       where: {
         task_id: id,
       },
+      include: taskIncludes,
     });
 
     return plainToInstance(TaskResponseDto, task);
@@ -31,7 +32,7 @@ export class TaskService {
 
   public async findAll(): Promise<TaskResponseDto[]> {
     const tasks = await this.taskRepository.findMany({
-      include: userIncludes
+      include: taskIncludes,
     });
 
     return plainToInstance(TaskResponseDto, tasks);

@@ -5,4 +5,5 @@ export type FindUniqueOptions = {
     project_id?: string
     task_id?: string
   };
+  include?: object
 };
