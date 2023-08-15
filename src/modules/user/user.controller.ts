@@ -16,7 +16,7 @@ import { UserPermissionPipe } from 'src/common/pipes';
 import { CreateUserDto, UpdateUserDto, UserResponse } from './dtos';
 import { UserService } from './user.service';
 
-@Controller('api/user')
+@Controller('api/users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 

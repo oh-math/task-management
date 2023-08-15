@@ -1,4 +1,4 @@
-import { formatDate } from '@utils/format-date';
+import { formatDate } from '@utils/date-formatting';
 import { Exclude, Expose, Transform, Type } from 'class-transformer';
 
 export class UserResponse {
