@@ -1,5 +1,5 @@
 import { Exclude, Expose, Transform, Type } from 'class-transformer';
-import { formatDate } from '@utils/format-date';
+import { formatDate } from '@utils/date-formatting';
 
 export class ProjectResponseDto {
   @Expose()
