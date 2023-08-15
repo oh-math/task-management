@@ -1,5 +1,5 @@
 import { formatDate } from '@utils/date-formatting';
-import { Expose, Transform, Type } from 'class-transformer';
+import { Exclude, Expose, Transform, Type } from 'class-transformer';
 
 export class TaskResponseDto {
   @Expose()
@@ -22,8 +22,8 @@ export class TaskResponseDto {
   @Expose()
   @Transform(({ value }) => formatDate(value), { toClassOnly: true })
   updatedAt: string;
-  @Expose()
+  @Exclude()
   user_id?: string;
-  @Expose()
+  @Exclude()
   project_id?: string;
 }
