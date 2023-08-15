@@ -3,5 +3,6 @@ export type FindUniqueOptions = {
     user_id?: string;
     email?: string;
     project_id?: string
+    task_id?: string
   };
 };
