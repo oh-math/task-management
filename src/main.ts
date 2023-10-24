@@ -7,7 +7,7 @@ import { ConfigService } from '@nestjs/config';
 const logger = new Logger();
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {bufferLogs: true});
+  const app = await NestFactory.create(AppModule, { bufferLogs: true });
 
   const configService = app.get(ConfigService);
   const prismaService = app.get(PrismaService);
@@ -22,7 +22,7 @@ async function bootstrap() {
 
   await prismaService.enableShutdownHooks(app);
   await app.listen(PORT, () => logger.log(`Server is running on port ${PORT}`));
- 
+
   logger.log(`Running on ${NODE_ENV.toUpperCase()} environment`);
 }
 

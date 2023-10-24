@@ -6,10 +6,15 @@ import { CreateTaskDto } from './dtos/create-task.dto';
 import { TaskResponseDto } from './dtos/task-response.dto';
 import { UpdateTaskDto } from './dtos/update-task.dto';
 import { TaskRepository } from './task.repository';
+import { Request } from 'express';
 
 @Injectable()
 export class TaskService {
   constructor(private readonly taskRepository: TaskRepository) {}
+
+public async count(): Promise<number> {
+  return this.taskRepository.count()
+}
 
   public async create(input: CreateTaskDto): Promise<TaskResponseDto> {
     const todayPlusOne = skipDay(1);
@@ -30,10 +35,8 @@ export class TaskService {
     return plainToInstance(TaskResponseDto, task);
   }
 
-  public async findAll(): Promise<TaskResponseDto[]> {
-    const tasks = await this.taskRepository.findMany({
-      include: taskIncludes,
-    });
+  public async findAll(request: Request): Promise<TaskResponseDto[]> {
+    const tasks = await this.taskRepository.findMany(request);
 
     return plainToInstance(TaskResponseDto, tasks);
   }

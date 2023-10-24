@@ -5,6 +5,9 @@
   "author": "Matheus da Costa",
   "private": true,
   "license": "UNLICENSED",
+  "prisma": {
+    "seed": "dotenv -e .env.dev -- ts-node prisma/seed.ts"
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
