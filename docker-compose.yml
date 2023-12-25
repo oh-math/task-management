@@ -2,14 +2,14 @@ version: '3.8'
 
 services:
   database:
-    image: postgres:latest
-    container_name: task-management-postgred
+    image: mysql:latest
+    container_name: task-management-mysql
     restart: always
     env_file:
-      - .env.dev
+      - .env
     volumes:
-      - database:/data/postgres
+      - database:/data/mysql
     ports:
-      - '5433:5432'
+      - '3306:3306'
 volumes:
   database:

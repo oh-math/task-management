@@ -20,7 +20,7 @@ import { LocalStrategy } from './strategies/local.strategy';
     JwtModule.register({
       global: true,
       secret: process.env.JWT_SECRET_KEY,
-      signOptions: { expiresIn: '30min' },
+      signOptions: { expiresIn: '1min' },
     }),
     PrismaModule,
   ],
